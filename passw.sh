@@ -14,8 +14,8 @@
 #thunderbird --compose $attachment
 
 att=$"attachment=/media/peixoto/Documentos/KeepPass/Bancos de Dados/Lovemenow.kdbx"
-#msg=$"caminho para o arquivo txt"
+msg=$"msg=Atualizado em:"
 sub=$"subject=Atualização de Senha"
 to=$"to=luizpeixoto.adv@gmail.com"
 
-thunderbird --compose $to,$sub,$att
+thunderbird --compose $to,$sub,$msg,$att
