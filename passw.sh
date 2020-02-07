@@ -13,8 +13,11 @@
 ##thunderbird --compose $to,$subject,$subject,$attachment
 #thunderbird --compose $attachment
 
+echo "Arquivo atualizado em:" > /media/peixoto/Documentos/KeepPass/Bancos\ de\ Dados/msg.txt
+date >> /media/peixoto/Documentos/KeepPass/Bancos\ de\ Dados/msg.txt
+
 att=$"attachment=/media/peixoto/Documentos/KeepPass/Bancos de Dados/Lovemenow.kdbx"
-msg=$"msg=Atualizado em:"
+msg=$"message=/media/peixoto/Documentos/KeepPass/Bancos de Dados/msg.txt"
 sub=$"subject=Atualização de Senha"
 to=$"to=luizpeixoto.adv@gmail.com"
 
