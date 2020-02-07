@@ -7,8 +7,9 @@
 # para depois recuperar em outro
 # usar o comando curl -L | bash para chamar várias sequencias de scripts
 #
-caminho = $"https://raw.githubusercontent.com/p31x070/mystuff/master/passw.sh"
+# não consegui atribuir variável para isso caminho = $"https://raw.githubusercon
+# tent.com/p31x070/mystuff/master/passw.sh"
 
 date | xclip -i -selection clipboard
 
-curl -L $caminho | bash
+curl -L https://raw.githubusercontent.com/p31x070/mystuff/master/passw.sh | bash
