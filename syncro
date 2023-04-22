@@ -1,0 +1,10 @@
+#!/bin/bash
+log=/home/peixoto/Documentos/logs/logrsync.txt
+echo "Documentos Sincronizado em: `date +%d-%m-%y_%H:%M:%S`" >> $log
+
+
+rsync -avzhe ssh /home/peixoto/Documentos/ pi@192.168.1.11:'/media/pi/bucket/Acer Docs/'
+
+
+echo "Fim: `date +%d-%m-%y_%H:%M:%S`" >> $log
+

@@ -1,0 +1,64 @@
+#!/bin/bash
+
+#!/bin/bash
+
+###############################################################################################
+# Função: convert_to_pdf
+#
+# Converte um arquivo ODT para PDF usando o LibreOffice.
+#
+# Argumentos:
+#   1. odt_file: o nome do arquivo ODT a ser convertido.
+#
+# Retorno:
+#   Retorna o nome do arquivo PDF criado.
+#
+# Erros:
+#   A função retorna 1 se ocorrer algum erro, e exibe uma mensagem de erro correspondente.
+###############################################################################################
+
+function convert_to_pdf {
+    
+    # Verifica se o nome do arquivo ODT foi fornecido como argumento
+    if [ $# -eq 0 ]
+    then
+        echo "Erro: o nome do arquivo ODT não foi fornecido"
+        return 1
+    fi
+
+    odt_file="$1"
+
+    # Verifica se o arquivo ODT existe
+    if [ ! -f "$odt_file" ]
+    then
+        echo "Erro: arquivo ODT não encontrado: $odt_file"
+        return 1
+    fi
+
+    # Cria o nome do arquivo PDF a partir do nome do arquivo ODT
+    pdf_file="$(dirname "$odt_file")/$(basename "${odt_file%.*}").pdf"
+
+    # Verifica se o arquivo PDF já existe
+    if [ -f "$pdf_file" ]
+    then
+        echo "Erro: o arquivo PDF já existe: $pdf_file"
+        return 1
+    fi
+
+    # Converte o arquivo ODT em PDF usando o LibreOffice
+    libreoffice --convert-to pdf "$odt_file" --outdir "$(dirname "$pdf_file")"
+
+    # Verifica se o arquivo PDF foi criado com sucesso
+    if [ ! -f "$pdf_file" ]
+    then
+        echo "Erro: não foi possível criar o arquivo PDF"
+        return 1
+    fi
+
+    # Retorna o nome do arquivo PDF criado
+    echo "$pdf_file"
+}
+
+# Chama a função com o nome do arquivo ODT como argumento
+convert_to_pdf "$1"
+echo "Rode cc.metadados $pdf_file para adicionar a atribuição Creative Commons nos metadados"

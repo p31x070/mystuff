@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# Verifica se foi passado o nome do arquivo PDF como argumento
+if [ $# -ne 1 ]; then
+  echo "Por favor, forneça o nome do arquivo PDF como argumento."
+  exit 1
+fi
+
+pdf_file="$1"
+xml_file="/home/peixoto/bin/CustomLicense2.xmp"
+metadata_name="XMP-cc:CustomLicense"
+
+# Verifica se o arquivo PDF existe
+if [ ! -f "$pdf_file" ]; then
+  echo "Arquivo $pdf_file não encontrado."
+  exit 1
+fi
+
+# Verifica se o arquivo XML existe
+if [ ! -f "$xml_file" ]; then
+  echo "Arquivo $xml_file não encontrado."
+  exit 1
+fi
+
+# Define o nome do novo arquivo PDF com a atribuição da licença
+new_pdf_file="$(dirname "$pdf_file")/$(basename "${pdf_file%.*}")_atribcc.pdf"
+
+# Adiciona as informações de atribuição da licença ao PDF utilizando o Exiftool
+exiftool -overwrite_original -tagsFromFile "$pdf_file" \
+-XMP-xmpRights:Marked=True \
+-XMP-xmpRights:UsageTerms='This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.' \
+-XMP-cc:license='http://creativecommons.org/licenses/by/4.0/' \
+-XMP-dc:creator='Luiz Peixoto de Siqueira Filho' \
+-XMP-dc:publisher='luiz@peixoto.cc' \
+"$pdf_file" -o "$new_pdf_file"
+
+# Verifica se a atribuição da licença foi adicionada com sucesso
+if [ $? -eq 0 ]; then
+  echo "Atribuição da licença adicionada com sucesso ao arquivo $pdf_file."
+  echo "Rode metasha $pdf_file para adicionar a assinatura de hash 256 nos metadados"
+else
+  echo "Ocorreu um erro ao adicionar a atribuição da licença ao arquivo $pdf_file."
+  exit 1
+fi
+

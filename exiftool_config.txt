@@ -1,0 +1,11 @@
+%Image::ExifTool::UserDefined = (
+    'Image::ExifTool::XMP::pdf' => {
+        'digst:SHA256' => {
+            Writable => 'string',
+            ValueConv => '"$val"',
+            ValueConvInv => '"$val"',
+            Notes => 'SHA256 hash of the PDF file',
+        },
+    },
+);
+

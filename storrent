@@ -1,0 +1,15 @@
+#!/bin/bash
+log=/home/peixoto/Documentos/logs/logtorrents.txt
+echo "Torrrents Sincronizados em: `date +%d-%m-%y_%H:%M:%S`" >> $log
+
+echo "###############################################"
+echo ""
+echo ""
+echo "rsync -avzhe ssh /home/peixoto/Torrents/* peixoto@nasty.local:/media/peixoto/Torrent/Completed"
+echo ""
+echo ""
+echo "###############################################"
+
+rsync -avzhe ssh /home/peixoto/Documentos/Torrents/* peixoto@nasty.local:/media/peixoto/Torrent/Downloads
+
+find /home/peixoto/Torrents/* -mtime +7 -delete

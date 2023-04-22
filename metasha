@@ -1,0 +1,48 @@
+#!/bin/bash
+
+# Define a versão do script
+versao="1.7"
+
+# Exibe a documentação de ajuda
+mostrar_ajuda() {
+  echo "Uso: $0 arquivo.pdf"
+  echo "Calcula o hash 256 do arquivo PDF e insere os resultados nos metadados usando a ferramenta exiftool."
+  echo "Versão: $versao"
+  echo
+}
+
+pdf_file="$1"
+
+# Verifica se o número de argumentos é válido
+if [ $# -ne 1 ]; then
+  mostrar_ajuda
+  exit 1
+fi
+
+# Verifica se o arquivo existe
+if [ ! -f "$1" ]; then
+  echo "Arquivo não encontrado: $1"
+  exit 1
+fi
+
+# Cria o novo nome do arquivo de saída
+new_pdf_file="$(dirname "$pdf_file")/$(basename "${pdf_file%.*}")_atribscc.pdf"
+
+# Verifica se o arquivo de configuração existe
+if [ ! -f "/home/peixoto/bin/exiftool_config.txt" ]; then
+  echo "Arquivo de configuração do exiftool não encontrado"
+  exit 1
+fi
+
+# Insere o hash 256 nos metadados do arquivo
+hash=$(sha256sum "$1" | cut -d ' ' -f 1)
+
+# salva os metadados renomeando o novo arquivo
+exiftool -overwrite_original -Title="$hash" \
+  -o "$new_pdf_file" \
+  "$pdf_file"
+  
+echo "Hash 256 inserido nos metadados do arquivo PDF."
+
+exiftool -a "$new_pdf_file"
+
